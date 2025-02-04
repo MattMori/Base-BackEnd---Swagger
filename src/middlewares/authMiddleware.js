@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const tratarErrosEsperados = require('../functions/tratarErrosEsperados');
 
-async function authUser(req, res, next) {
+async function authMiddleware (req, res, next) {
     const token = req.headers['x-auth-token'];
 
     if (!token) {
@@ -20,4 +20,4 @@ async function authUser(req, res, next) {
     }
 }
 
-module.exports = authUser;
+module.exports = authMiddleware;

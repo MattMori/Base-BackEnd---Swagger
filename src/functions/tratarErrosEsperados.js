@@ -1,32 +1,30 @@
-const S = require('string');
-
 function tratarErrosEsperados(res, err) {
+  const erroString = String(err);
 
-//   Entrar quando o moogonsee der algum erro
-  if (String(err).includes(`ValidationError:`)) {
+  // Erro de validação do Mongoose
+  if (erroString.includes("ValidationError:")) {
     return res.status(400).json({
       status: "Erro",
-      statusMensagem: S(String(err).replace("ValidationError: ", "")).replaceAll(':', '').s,
-      resposta: String(err)
+      statusMensagem: erroString.replace("ValidationError: ", "").replace(/:/g, ''),
+      resposta: erroString
     });
   }
 
-//   Pode ser um erro definito manualmente por min
-  if (String(err).includes(`Error:`)) {
+  // Erro manual definido pelo dev
+  if (erroString.includes("Error:")) {
     return res.status(400).json({
       status: "Erro",
-      statusMensagem: String(err).replace("Error: ", ""),
-      resposta: String(err)
+      statusMensagem: erroString.replace("Error: ", ""),
+      resposta: erroString
     });
   }
 
-
-//   Erro inesperado
+  // Erro inesperado
   console.error(err);
   return res.status(500).json({
     status: "Erro",
-    statusMensagem: "Houve um problema inesperado, tente novamente mais tarde.",
-    resposta: String(err)
+    statusMensagem: "Erro interno do servidor. Tente novamente mais tarde.",
+    resposta: erroString
   });
 }
 

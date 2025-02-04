@@ -1,6 +1,6 @@
 const mongooseToSwagger = require('mongoose-to-swagger');
 // Importar os esquemas nesta região
-const EsquemaExemplo = require('../src/models/exemplo.js');
+const EsquemaExemploUser = require('../src/models/exemploUser.js');
 
 const swaggerAutogen = require('swagger-autogen')({
     openapi: '3.0.0',
@@ -25,12 +25,12 @@ let doc = {
     },
     servers: [
         {
-            url: " url do servidor de produção",
-            description: "Servidor de produção."
-        },
-        {
             url: "http://localhost:4000/",
             description: "Servidor localhost."
+        },
+        {
+            url: " url do servidor de produção",
+            description: "Servidor de produção."
         }
     ],
     consumes: ['application/json'],
@@ -38,7 +38,7 @@ let doc = {
     components: {
         schemas: {
             // esquemas aqui: exemplo: 
-            Exemplo: mongooseToSwagger(EsquemaExemplo),
+            ExemploUser: mongooseToSwagger(EsquemaExemploUser),
 
         }
     }
